@@ -18,4 +18,4 @@ server = server.listen(port, () => {
 
 // module.exports.connectChatBot = connectChatBot;
 
-connectChatBot.login(config['bot-id']);
+connectChatBot.login(process.env.DISCORD_BOT_ID);
