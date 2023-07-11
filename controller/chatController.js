@@ -1,6 +1,7 @@
 const AppError = require('../helpers/appError');
 const axios = require('axios');
 const config = require('../config.json');
+const dotenv = require('dotenv');
 
 exports.createHook = async (req, res, next) => {
     console.log(req.body);
@@ -16,10 +17,10 @@ exports.createHook = async (req, res, next) => {
         let params = {
             name: hookName
         };
-        let urls = `https://discordapp.com/api/channels/${config['webhook-id']}/webhooks`;
+        let urls = `https://discordapp.com/api/channels/${process.env.WEBHOOK_ID}/webhooks`;
         console.log('urls', urls);
         let response = await axios.post({urls, method:'post', params, headers:{
-            Authorization: `Bot ${config['webhook-tooken']}`,
+            Authorization: `Bot ${process.env.DISCORD_BOT_ID}`,
         }});
         console.log('Response', response);
     } catch (error) {
