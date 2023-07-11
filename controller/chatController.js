@@ -1,7 +1,5 @@
 const AppError = require('../helpers/appError');
 const axios = require('axios');
-const config = require('../config.json');
-const dotenv = require('dotenv');
 
 exports.createHook = async (req, res, next) => {
     console.log(req.body);
