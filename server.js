@@ -1,4 +1,4 @@
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv').config({path: __dirname + '/.env'});
 const app = require('./index');
 const port = process.env.PORT || 3000;
 const { Client, GatewayIntentBits } = require('discord.js');
