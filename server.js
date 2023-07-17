@@ -1,8 +1,22 @@
-const dotenv = require('dotenv').config({path: __dirname + '/.env'});
+const mongoose = require('mongoose');
+const dotenv = require('dotenv')
+dotenv.config({ path: './.env' });
 const app = require('./index');
-const port = process.env.PORT || 3000;
+const axios = require('axios');
+const config = require('./config.json')
+const port = config.port ||3000;
 const { Client, GatewayIntentBits } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
+
+const dbURL = 'mongodb://localhost:27017/shop';
+
+mongoose
+  .connect(dbURL, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  })
+  .then(() => console.log('DB connection successful!'))
+  .catch((err) => console.log(err));
 
 var server = require('http').createServer(app);
 
@@ -12,9 +26,10 @@ const connectChatBot = client.on('ready', () => {
 });
 
 server = server.listen(port, () => {
-    console.log(`App running on port = ${port}...`);
+    console.log(`App running on port ${port}...`);
 });
 
+// module.exports.connectChatBot = connectChatBot;
 
 connectChatBot.on('messageCreate', async (message) => {
     console.log('message',message)
@@ -37,6 +52,4 @@ connectChatBot.on('messageCreate', async (message) => {
     }
 });
 
-// module.exports.connectChatBot = connectChatBot;
-
-connectChatBot.login(process.env.DISCORD_BOT_ID);
+connectChatBot.login(config.discord_bot_id);
